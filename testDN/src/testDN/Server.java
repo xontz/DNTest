@@ -24,19 +24,6 @@ class Server {
 		return maxRemainingEffort;
 	}
 
-//	private void disconnectUsers() {
-//		ArrayList<Integer> indexesToRemove = new ArrayList<Integer>();
-//		for (int i = 0; i < userList.size(); i++) {
-//			if (userList.get(i).isTaskCompleted()) {
-//				indexesToRemove.add(i);
-//			}
-//		}
-//		for (int i = 0; i < indexesToRemove.size(); i++) {
-//			userList.remove((int) indexesToRemove.get(i));
-//		}
-//	}
-//	
-
 	private void disconnectUsers() {
 		ArrayList<User> newUserList = new ArrayList<User>();
 		this.userList.forEach(user -> {
