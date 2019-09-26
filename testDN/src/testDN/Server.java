@@ -36,12 +36,13 @@ class Server {
 
 	private void updateUserTask() {
 		this.maxRemainingEffort = -1;
-		for (int i = 0; i < this.userList.size(); i++) {
-			this.userList.get(i).updateUserTask();
-			if (this.userList.get(i).getTaskRemainTicks() > this.maxRemainingEffort) {
-				this.maxRemainingEffort = this.userList.get(i).getTaskRemainTicks();
+		this.userList.forEach(user -> {
+			user.updateUserTask();
+			if (user.getTaskRemainTicks() > this.maxRemainingEffort) {
+				this.maxRemainingEffort = user.getTaskRemainTicks();
 			}
-		}
+		});
+
 	}
 
 	public int getConnectedUsers() {

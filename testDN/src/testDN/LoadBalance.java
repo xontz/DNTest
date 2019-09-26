@@ -20,16 +20,21 @@ public class LoadBalance {
 		this.fileName = fileName;
 	}
 
-	public void run() {
-		InputReader iReader = new InputReader();
-		iReader.readFile(fileName);
-		this.ttasks = iReader.getTtask();
-		this.umax = iReader.getUmax();
-		this.incomingUser = iReader.getIncomingUsers();
-		this.oWriter = new OutputWriter("outuput.txt").getWriterObj();
-		this.serverList = new ArrayList<Server>();
-		this.costPerServer = 1;
-		startSimulation();
+	public void run() throws Exception {
+		try {
+			InputReader iReader = new InputReader();
+			iReader.readFile(fileName);
+			this.ttasks = iReader.getTtask();
+			this.umax = iReader.getUmax();
+			this.incomingUser = iReader.getIncomingUsers();
+			this.oWriter = new OutputWriter("outuput.txt").getWriterObj();
+			this.serverList = new ArrayList<Server>();
+			this.costPerServer = 1;
+			startSimulation();
+
+		} catch (Exception e) {
+			throw e;
+		}
 
 	}
 
@@ -88,11 +93,12 @@ public class LoadBalance {
 	private int checkFeasibility(ArrayList<Integer> availableServersIndexes) {
 		int bestServerIndex = -1;
 		int maxRemaingEffortsOnServer = -1;
+
 		for (int i = 0; i < availableServersIndexes.size(); i++) {
-			if (this.serverList.get(availableServersIndexes.get(i))
-					.getMaxRemainingEffort() > maxRemaingEffortsOnServer) {
-				maxRemaingEffortsOnServer = this.serverList.get(availableServersIndexes.get(i)).getMaxRemainingEffort();
-				bestServerIndex = availableServersIndexes.get(i);
+			int serverIndex = availableServersIndexes.get(i);
+			if (this.serverList.get(serverIndex).getMaxRemainingEffort() > maxRemaingEffortsOnServer) {
+				maxRemaingEffortsOnServer = this.serverList.get(serverIndex).getMaxRemainingEffort();
+				bestServerIndex = serverIndex;
 			}
 		}
 		return bestServerIndex;
@@ -150,15 +156,15 @@ public class LoadBalance {
 		}
 
 		catch (Exception e) {
-			// TODO: handle exception
+			System.out.println(e.toString());
 		}
 	}
 
 	private void writeCost() {
 		try {
 			this.oWriter.write("" + this.totalCost);
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e.toString());
 		}
 	}
 }

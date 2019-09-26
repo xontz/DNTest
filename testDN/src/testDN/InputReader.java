@@ -24,7 +24,7 @@ public class InputReader {
 		return incomingUsers;
 	}
 
-	public void readFile(String fileName) {
+	public void readFile(String fileName) throws Exception {
 		BufferedReader objReader = null;
 		try {
 			String strCurrentLine;
@@ -32,13 +32,13 @@ public class InputReader {
 			objReader = new BufferedReader(new FileReader(fileName));
 			strCurrentLine = objReader.readLine();
 			if (strCurrentLine != null && strCurrentLine.length() > 0) {
-				this.ttask = Integer.parseInt(strCurrentLine);
+				this.ttask = validateAndConvertInput(strCurrentLine);
 			} else {
 				throw new Exception("There is a blank line on line 1. Please check and run it again!");
 			}
 			strCurrentLine = objReader.readLine();
 			if (strCurrentLine != null && strCurrentLine.length() > 0) {
-				this.umax = Integer.parseInt(strCurrentLine);
+				this.umax = validateAndConvertInput(strCurrentLine);
 			} else {
 				throw new Exception("There is a blank line on line 2. Please check and run it again!");
 			}
@@ -47,32 +47,43 @@ public class InputReader {
 			while ((strCurrentLine = objReader.readLine()) != null) {
 				line++;
 				if (strCurrentLine.length() > 0) {
-					this.incomingUsers.add((Integer.parseInt(strCurrentLine)));
+					this.incomingUsers.add((validateAndConvertInput(strCurrentLine)));
 				} else {
 					throw new Exception("There is a blank line on line:" + line + ". Please check and run it again!");
 				}
 			}
 			validateFields();
+			if (objReader != null)
+				objReader.close();
 
 		} catch (Exception e) {
 
-			e.printStackTrace();
+			System.out.println(e.toString());
 
-		} finally {
-
-			try {
-				if (objReader != null)
-					objReader.close();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
 		}
+	}
+
+	public Integer validateAndConvertInput(String input) throws Exception {
+
+		if (!input.matches("-?\\d+(\\.\\d+)?")) {
+			throw new Exception("Only numbers are expected in the input file!");
+		}
+
+		int convertedInput = Integer.parseInt(input);
+		if (convertedInput < 0) {
+			throw new Exception("There is a negative number on the file!");
+		}
+		return convertedInput;
 	}
 
 	public void validateFields() throws Exception {
 
-		if (this.ttask <= 0 && this.ttask > 10) {
+		if (this.ttask <= 0 || this.ttask > 10) {
 			throw new Exception("The value of ttask is out of the accepted range.");
+		}
+		
+		if (this.umax <= 0 || this.umax > 10) {
+			throw new Exception("The value of umax is out of the accepted range.");
 		}
 	}
 }

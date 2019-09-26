@@ -13,8 +13,7 @@ public class Main {
 
 				new LoadBalance(fileName).run();
 
-			}
-			else {
+			} else {
 				throw new Exception("You should provide a file name");
 			}
 
