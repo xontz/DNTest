@@ -16,7 +16,6 @@ public class OutputWriter {
 		try {
 			this.writerObj = new BufferedWriter(new FileWriter(fileName));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

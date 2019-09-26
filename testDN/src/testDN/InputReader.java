@@ -23,7 +23,8 @@ public class InputReader {
 	public List<Integer> getIncomingUsers() {
 		return incomingUsers;
 	}
-
+	
+	//read file and handle exception
 	public void readFile(String fileName) throws Exception {
 		BufferedReader objReader = null;
 		try {
@@ -62,6 +63,8 @@ public class InputReader {
 
 		}
 	}
+	
+	//check integrity of input data
 
 	public Integer validateAndConvertInput(String input) throws Exception {
 
@@ -75,6 +78,8 @@ public class InputReader {
 		}
 		return convertedInput;
 	}
+	
+	//Check limits for input variables
 
 	public void validateFields() throws Exception {
 

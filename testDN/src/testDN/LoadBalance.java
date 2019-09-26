@@ -20,6 +20,7 @@ public class LoadBalance {
 		this.fileName = fileName;
 	}
 
+	//start point
 	public void run() throws Exception {
 		try {
 			InputReader iReader = new InputReader();
@@ -54,13 +55,13 @@ public class LoadBalance {
 		writeCost();
 		try {
 			this.oWriter.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e.toString());
 		}
 
 	}
 
+	//add new user to server
 	public void connectNewUser(int numberOfNewUsers) {
 		for (int i = 0; i < numberOfNewUsers; i++) {
 			User u = new User(this.ttasks);
@@ -68,6 +69,7 @@ public class LoadBalance {
 		}
 	}
 
+	//select to what server the user should be connected
 	public void loadBalance(User u) {
 		// check if there are any servers
 		if (this.serverList.size() > 0) {
@@ -90,6 +92,7 @@ public class LoadBalance {
 
 	}
 
+	//check best server to connect user based on availability
 	private int checkFeasibility(ArrayList<Integer> availableServersIndexes) {
 		int bestServerIndex = -1;
 		int maxRemaingEffortsOnServer = -1;
@@ -104,6 +107,7 @@ public class LoadBalance {
 		return bestServerIndex;
 	}
 
+	// check available servers
 	private ArrayList<Integer> checkAvailability() {
 		ArrayList<Integer> availableServerIndexes = new ArrayList<Integer>();
 		for (int i = 0; i < this.serverList.size(); i++) {
@@ -114,10 +118,12 @@ public class LoadBalance {
 		return availableServerIndexes;
 	}
 
+	//add a new server to the hub
 	public Server createNewServer() {
 		return new Server(this.umax);
 	}
 
+	//check servers activities and remove servers not used
 	public void updateServerList() {
 
 		ArrayList<Server> newServerList = new ArrayList<Server>();
@@ -128,13 +134,14 @@ public class LoadBalance {
 			}
 		});
 		this.serverList = newServerList;
-
 	}
-
+	
+	//keeps control of cost based on activies servers and # of ticks
 	public void calculeCost() {
 		this.totalCost += (this.costPerServer * this.serverList.size());
 	}
 
+	//output the response to file
 	private void writeState() {
 		try {
 

@@ -19,11 +19,13 @@ class Server {
 	public void connectUser(User user) {
 		this.userList.add(user);
 	}
-
+	
+	
 	public int getMaxRemainingEffort() {
 		return maxRemainingEffort;
 	}
 
+	//disconnect users based on task conclusion
 	private void disconnectUsers() {
 		ArrayList<User> newUserList = new ArrayList<User>();
 		this.userList.forEach(user -> {
@@ -33,7 +35,8 @@ class Server {
 		});
 		this.userList = newUserList;
 	}
-
+	
+	// update remaning time of user's task
 	private void updateUserTask() {
 		this.maxRemainingEffort = -1;
 		this.userList.forEach(user -> {
@@ -45,15 +48,18 @@ class Server {
 
 	}
 
+	//total of simultaneously connected users 
 	public int getConnectedUsers() {
 		return this.userList.size();
 	}
 
+	
 	public void updateServerActivities() {
 		updateUserTask();
 		disconnectUsers();
 	}
-
+	
+	//check if server can accept more connections
 	public boolean hasCapacity() {
 		return this.umax > this.getConnectedUsers();
 	}
